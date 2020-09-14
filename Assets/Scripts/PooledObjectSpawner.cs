@@ -28,11 +28,12 @@ public class PooledObjectSpawner : MonoBehaviour
     private void Awake()
     {
         spawnFrequency = 0.05f;
-        PoolUtility.pool = GourdPool.GourdPool.GetPoolForObject(_spawnObject);
+        
     }
 
     private void OnEnable()
     {
+        PoolUtility.pool = GourdPool.GourdPool.GetPoolForObject(_spawnObject);
         PoolUtility.isPooled = true;
         //GourdPool.GourdPool.SetObjectPoolCapacity(_spawnObject, poolMin, poolMax);
         StartCoroutine(nameof(SpawnLoop));

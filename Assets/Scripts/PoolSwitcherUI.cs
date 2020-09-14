@@ -43,6 +43,10 @@ public class PoolSwitcherUI : MonoBehaviour
         _poolActiveLabel.color = _isUsingPool ? Color.green : Color.red;
         _statsCanvas.alpha = _isUsingPool ? 1 : 0.25f;
 
+        PoolUtility.totalSpawnedCount = 0;
+        GourdPool.GourdPool.DeleteGameObjectPool(_pooledSpawner._spawnObject);
+        PoolUtility.pool = GourdPool.GourdPool.GetPoolForObject(_pooledSpawner._spawnObject);
+        
         ObjectCollection.OnToggle();
         PoolUtility.isPooled = _isUsingPool;
         PoolUtility.currentObjectsCount = 0;

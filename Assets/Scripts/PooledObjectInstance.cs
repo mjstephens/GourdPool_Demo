@@ -10,6 +10,13 @@ public class PooledObjectInstance : MonoBehaviour
 
     [SerializeField]
     private Rigidbody _rigidbody;
+    [SerializeField]
+    private Renderer _renderer;
+
+    public Color instantiatedColor;
+    public Color pooledColor;
+
+    private int _enabledCount;
     
     #endregion Variables
     
@@ -19,6 +26,7 @@ public class PooledObjectInstance : MonoBehaviour
     private void Awake()
     {
         PoolUtility.totalSpawnedCount++;
+        _renderer.material.color = instantiatedColor;
         ObjectCollection.collection.Add(this);
     }
 
@@ -28,6 +36,12 @@ public class PooledObjectInstance : MonoBehaviour
         _rigidbody.angularVelocity = new Vector3(
             Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50));
         PoolUtility.currentObjectsCount++;
+
+        _enabledCount++;
+        if (PoolUtility.isPooled && _enabledCount > 2)
+        {
+            _renderer.material.color = pooledColor;
+        }
     }
 
     private void OnDisable()
