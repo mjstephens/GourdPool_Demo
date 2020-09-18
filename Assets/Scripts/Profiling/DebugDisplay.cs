@@ -9,6 +9,7 @@ public class DebugDisplay : MonoBehaviour
     public TMP_Text recycles;
     public TMP_Text pooledUsed;
     public TMP_Text poolSize;
+    public TMP_Text overflows;
     
     
     
@@ -22,6 +23,7 @@ public class DebugDisplay : MonoBehaviour
             recycles.text = PoolUtility.pool.recyclesCount.ToString();
             pooledUsed.text = PoolUtility.pool.pooledUseCount.ToString();
             poolSize.text = PoolUtility.pool.instanceCount.ToString();
+            overflows.text = PoolUtility.pool.activeSpilloverCount.ToString();
         }
     }
 }

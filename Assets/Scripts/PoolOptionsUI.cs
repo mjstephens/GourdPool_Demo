@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using GourdPool;
+﻿using GourdPool;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +14,8 @@ public class PoolOptionsUI : MonoBehaviour
     private TMP_Text _minCapacityValueText;
     [SerializeField]
     private TMP_Text _maxCapacityValueText;
+    [SerializeField]
+    private TMP_Text _spilloverAllowanceValueText;
 
     [SerializeField] 
     private Slider _minCapacitySlider;
@@ -48,6 +48,12 @@ public class PoolOptionsUI : MonoBehaviour
     {
         AdjustCapacityValues((int) _minCapacitySlider.value, (int) value);
     }
+    
+    public void OnPoolSpilloverAllowanceSet(float value)
+    {
+        _spilloverAllowanceValueText.text = ((int) value).ToString();
+        _spawner.SetPoolSpilloverAllowance((int)value);
+    }
 
     public void OnCleanPoolSelected()
     {
@@ -59,6 +65,11 @@ public class PoolOptionsUI : MonoBehaviour
         (PoolUtility.pool as IPool).Clear();
     }
 
+    public void OnBurstSelected()
+    {
+        _spawner.Burst();
+    }
+    
     #endregion UI
 
 

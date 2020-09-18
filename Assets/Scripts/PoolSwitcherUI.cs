@@ -44,8 +44,8 @@ public class PoolSwitcherUI : MonoBehaviour
         _statsCanvas.alpha = _isUsingPool ? 1 : 0.25f;
 
         PoolUtility.totalSpawnedCount = 0;
-        GourdPool.GourdPool.DeleteGameObjectPool(_pooledSpawner._spawnObject);
-        PoolUtility.pool = GourdPool.GourdPool.GetPoolForObject(_pooledSpawner._spawnObject);
+        GourdPool.Pool.DeleteGameObjectPool(_pooledSpawner._spawnObject);
+        PoolUtility.pool = GourdPool.Pool.GetPoolForObject(_pooledSpawner._spawnObject);
         
         ObjectCollection.OnToggle();
         PoolUtility.isPooled = _isUsingPool;
@@ -55,7 +55,7 @@ public class PoolSwitcherUI : MonoBehaviour
     public void OnResetButtonPressed()
     {
         PoolUtility.totalSpawnedCount = 0;
-        GourdPool.GourdPool.DeleteGameObjectPool(_pooledSpawner._spawnObject);
+        GourdPool.Pool.DeleteGameObjectPool(_pooledSpawner._spawnObject);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

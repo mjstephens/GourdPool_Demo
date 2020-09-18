@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using DefaultNamespace;
+﻿using DefaultNamespace;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,6 +13,7 @@ public class PooledObjectInstance : MonoBehaviour
 
     public Color instantiatedColor;
     public Color pooledColor;
+    public Color spilloverColor;
 
     private int _enabledCount;
     
@@ -38,9 +37,17 @@ public class PooledObjectInstance : MonoBehaviour
         PoolUtility.currentObjectsCount++;
 
         _enabledCount++;
-        if (PoolUtility.isPooled && _enabledCount > 2)
+
+        if (PoolUtility.isPooled)
         {
-            _renderer.material.color = pooledColor;
+            if (PoolUtility.pool.activeSpilloverCount > 0)
+            {
+                _renderer.material.color = spilloverColor;
+            }
+            else if (_enabledCount > 2)
+            {
+                _renderer.material.color = pooledColor;
+            }
         }
     }
 

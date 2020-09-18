@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using GourdPool;
 using UnityEngine;
 
 public class PooledObjectSpawner : MonoBehaviour
@@ -12,6 +13,10 @@ public class PooledObjectSpawner : MonoBehaviour
     [SerializeField]
     [Tooltip("The transform from where the spawnedObject will be spawned.")]
     private Transform _spawnPoint;
+    
+    [SerializeField]
+    [Tooltip("The transform from where the spawnedObject will be spawned when burst.")]
+    private Transform _burstSpawnPoint;
 
     public float spawnFrequency { private get; set; }
     
@@ -28,14 +33,13 @@ public class PooledObjectSpawner : MonoBehaviour
     private void Awake()
     {
         spawnFrequency = 0.05f;
-        
     }
 
     private void OnEnable()
     {
-        PoolUtility.pool = GourdPool.GourdPool.GetPoolForObject(_spawnObject);
+        PoolUtility.pool = Pool.GetPoolForObject(_spawnObject);
         PoolUtility.isPooled = true;
-        //GourdPool.GourdPool.SetObjectPoolCapacity(_spawnObject, poolMin, poolMax);
+        
         StartCoroutine(nameof(SpawnLoop));
     }
 
@@ -69,11 +73,19 @@ public class PooledObjectSpawner : MonoBehaviour
     {
         if (pooled)
         {
-            GourdPool.GourdPool.Pooled(obj, spawnPos.position, Quaternion.identity);
+            Pool.Pooled(obj, spawnPos.position, Quaternion.identity);
         }
         else
         {
             Instantiate(obj, spawnPos.position, Quaternion.identity);
+        }
+    }
+
+    public void Burst()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            SpawnObject(_spawnObject, _burstSpawnPoint, true);
         }
     }
 
@@ -84,7 +96,12 @@ public class PooledObjectSpawner : MonoBehaviour
 
     public void SetPoolCapacity(int min, int max)
     {
-        GourdPool.GourdPool.SetObjectPoolCapacity(_spawnObject, min, max);
+        Pool.SetObjectPoolCapacity(_spawnObject, min, max);
+    }
+
+    public void SetPoolSpilloverAllowance(int allowance)
+    {
+        Pool.SetObjectPoolSpilloverAllowance(_spawnObject, allowance);
     }
 
     #endregion Pool Options
